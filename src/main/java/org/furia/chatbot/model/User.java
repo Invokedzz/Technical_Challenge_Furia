@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.furia.chatbot.dto.RegisterDTO;
+import org.furia.chatbot.dto.UpdateUserDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -44,6 +45,40 @@ public class User {
         this.password = registerDTO.password();
 
         this.createdAt = LocalDateTime.now();
+
+        this.active = true;
+
+    }
+
+    public void update (UpdateUserDTO updateUserDTO) {
+
+        if (updateUserDTO.username() != null) {
+
+            this.username = updateUserDTO.username();
+
+        }
+
+        if (updateUserDTO.email() != null) {
+
+            this.email = updateUserDTO.email();
+
+        }
+
+        if (updateUserDTO.password() != null) {
+
+            this.password = updateUserDTO.password();
+
+        }
+
+    }
+
+    public void deactivate () {
+
+        this.active = false;
+
+    }
+
+    public void reactivate () {
 
         this.active = true;
 
