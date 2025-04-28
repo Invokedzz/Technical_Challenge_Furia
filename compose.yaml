@@ -1,0 +1,58 @@
+services:
+
+  ollama:
+
+    image: ollama/ollama:latest
+    container_name: ollama-furia
+    ports: ["11435:11434"]
+    volumes:
+      - ollama:/root/.ollama
+    pull_policy: always
+    tty: true
+    restart: unless-stopped
+
+  db:
+
+    image: postgres:latest
+    container_name: postgres-furia
+    environment:
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      POSTGRES_DB: furia
+    ports:
+      - "5432"
+    volumes:
+      - furia_pgdata:/var/lib/postgresql/data
+
+  prepare-models:
+
+    image: ollama/ollama:latest
+    depends_on:
+      - ollama
+    volumes:
+      - ollama:/root/.ollama
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:7869
+    entrypoint: [ "/bin/sh", "-c" ]
+    command: [ "ollama run phi3:3.8b-instruct" ]
+
+  app:
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot-furia
+    environment:
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    depends_on:
+      - db
+    ports:
+      - "9091:9091"
+    restart: unless-stopped
+
+
+volumes:
+  furia_pgdata:
+  ollama:
