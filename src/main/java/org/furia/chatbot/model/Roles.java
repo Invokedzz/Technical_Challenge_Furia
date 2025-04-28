@@ -17,6 +17,7 @@ public class Roles {
     private String name;
 
     @OneToOne
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
 
 }
