@@ -1,15 +1,11 @@
 package org.furia.chatbot.services;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.furia.chatbot.dto.LoginDTO;
-import org.furia.chatbot.dto.ProfileDTO;
-import org.furia.chatbot.dto.RegisterDTO;
-import org.furia.chatbot.dto.UpdateUserDTO;
+import org.furia.chatbot.dto.*;
 import org.furia.chatbot.exceptions.NotFoundException;
 import org.furia.chatbot.model.User;
 import org.furia.chatbot.repository.UserRepository;
-import org.springframework.security.core.token.TokenService;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,13 +15,14 @@ public class UserServices {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
+    private final TokenAuthService tokenAuthService;
+
     private final RoleServices roleServices;
 
     private final AuthService authService;
 
-    private final PasswordEncoder passwordEncoder;
-
-    @Transactional
     public void register (RegisterDTO registerDTO) {
 
         var encodedPassword = passwordEncoder.encode(registerDTO.password());
@@ -50,21 +47,25 @@ public class UserServices {
 
         }
 
-        throw new NotFoundException("User not found!");
+        throw new NotFoundException("Usuário não encontrado!");
 
     }
 
-    public ProfileDTO profile (Long id) {
+    public ProfileDTO profile (HttpHeaders headers) {
 
-        var user = findUserById(id);
+        Long userId = tokenAuthService.findSessionId(headers);
 
-        return new ProfileDTO(user.getUsername(), user.getEmail());
+        var user = findUserById(userId);
+
+        return new ProfileDTO(user.getUsername(), user.getEmail(), user.getCreatedAt());
 
     }
 
-    public void updateUserById (Long id, UpdateUserDTO updateUserDTO) {
+    public void updateUserById (HttpHeaders headers, UpdateUserDTO updateUserDTO) {
 
-        var user = findUserById(id);
+        Long userId = tokenAuthService.findSessionId(headers);
+
+        var user = findUserById(userId);
 
         user.update(updateUserDTO);
 
@@ -72,9 +73,9 @@ public class UserServices {
 
     }
 
-    public void reactivateUserById (Long id) {
+    public void reactivateUserById (ReactivateAccountDTO reactivateAccountDTO) {
 
-        var user = findUserById(id);
+        var user = findUserByEmail(reactivateAccountDTO.email());
 
         user.reactivate();
 
@@ -82,9 +83,11 @@ public class UserServices {
 
     }
 
-    public void deactivateUserById (Long id) {
+    public void deactivateUserById (HttpHeaders headers) {
 
-        var user = findUserById(id);
+        Long userId = tokenAuthService.findSessionId(headers);
+
+        var user = findUserById(userId);
 
         user.deactivate();
 
@@ -96,7 +99,15 @@ public class UserServices {
 
        return userRepository
                .findById(id)
-               .orElseThrow(() -> new NotFoundException("User not found!"));
+               .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
+
+    }
+
+    private User findUserByEmail (String email) {
+
+        return userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
 
     }
 

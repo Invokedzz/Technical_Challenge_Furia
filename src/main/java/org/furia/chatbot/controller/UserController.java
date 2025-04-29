@@ -3,6 +3,7 @@ package org.furia.chatbot.controller;
 import jakarta.validation.Valid;
 import org.furia.chatbot.dto.*;
 import org.furia.chatbot.services.UserServices;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,38 +30,38 @@ public record UserController (UserServices userServices) {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity <ProfileDTO> profile (@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity <ProfileDTO> profile (@RequestHeader HttpHeaders headers) {
 
-        var profile = userServices.profile(id);
+        var profile = userServices.profile(headers);
 
         return ResponseEntity.status(HttpStatus.OK).body(profile);
 
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity <Void> updateById (@PathVariable Long id,
+    @PutMapping("/update")
+    public ResponseEntity <SuccessRespDTO> updateById (@RequestHeader HttpHeaders headers,
                                              @Valid @RequestBody UpdateUserDTO updateUserDTO) {
 
-        userServices.updateUserById(id, updateUserDTO);
+        userServices.updateUserById(headers, updateUserDTO);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-
-    }
-
-    @PutMapping("/{id}/reactivate")
-    public ResponseEntity <Void> reactivateById (@PathVariable Long id) {
-
-        userServices.reactivateUserById(id);
-
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessRespDTO("Conta atualizada com sucesso!"));
 
     }
 
-    @DeleteMapping("/{id}/delete")
-    public ResponseEntity <Void> deleteById (@PathVariable Long id) {
+    @PutMapping("/reactivate")
+    public ResponseEntity <SuccessRespDTO> reactivateByEmail (@Valid @RequestBody ReactivateAccountDTO reactivateAccountDTO) {
 
-        userServices.deactivateUserById(id);
+        userServices.reactivateUserById(reactivateAccountDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessRespDTO("Conta reativada com sucesso!"));
+
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity <Void> deleteById (@RequestHeader HttpHeaders headers) {
+
+        userServices.deactivateUserById(headers);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

@@ -10,4 +10,34 @@ public class MessageServices {
 
     private final MessageRepository messageRepository;
 
+    public void createMessage () {
+
+
+
+    }
+
+    public void allMessages () {
+
+
+
+    }
+
+    public void findMessageById (Long id) {
+
+
+
+    }
+
+    public void updateMessageById (Long id) {
+
+
+
+    }
+
+    public void deleteMessageById (Long id) {
+
+
+
+    }
+
 }
