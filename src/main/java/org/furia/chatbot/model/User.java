@@ -36,6 +36,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List <Chat> chat;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List <Message> messages;
+
     public User (RegisterDTO registerDTO) {
 
         this.username = registerDTO.username();

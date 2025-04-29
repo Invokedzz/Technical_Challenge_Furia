@@ -35,7 +35,7 @@ public record UserController (UserServices userServices) {
     public ResponseEntity <Void> updateById (@PathVariable Long id,
                                              @Valid @RequestBody UpdateUserDTO updateUserDTO) {
 
-        userServices.updateById(id, updateUserDTO);
+        userServices.updateUserById(id, updateUserDTO);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
@@ -44,7 +44,7 @@ public record UserController (UserServices userServices) {
     @PutMapping("/{id}/reactivate")
     public ResponseEntity <Void> reactivateById (@PathVariable Long id) {
 
-        userServices.reactivateById(id);
+        userServices.reactivateUserById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
@@ -53,7 +53,7 @@ public record UserController (UserServices userServices) {
     @DeleteMapping("/{id}/delete")
     public ResponseEntity <Void> deleteById (@PathVariable Long id) {
 
-        userServices.deactivateById(id);
+        userServices.deactivateUserById(id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

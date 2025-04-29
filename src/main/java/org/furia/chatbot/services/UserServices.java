@@ -31,7 +31,7 @@ public class UserServices {
 
     }
 
-    public void updateById (Long id, UpdateUserDTO updateUserDTO) {
+    public void updateUserById (Long id, UpdateUserDTO updateUserDTO) {
 
         var user = findUserById(id);
 
@@ -41,7 +41,7 @@ public class UserServices {
 
     }
 
-    public void reactivateById (Long id) {
+    public void reactivateUserById (Long id) {
 
         var user = findUserById(id);
 
@@ -51,7 +51,7 @@ public class UserServices {
 
     }
 
-    public void deactivateById (Long id) {
+    public void deactivateUserById (Long id) {
 
         var user = findUserById(id);
 

@@ -10,4 +10,14 @@ public class ChatServices {
 
     private final ChatRepository chatRepository;
 
+    public void createChat () {}
+
+    public void chatList () {}
+
+    public void findChatById (Long id) {}
+
+    public void updateChatById (Long id) {}
+
+    public void deleteChatById (Long id) {}
+
 }
