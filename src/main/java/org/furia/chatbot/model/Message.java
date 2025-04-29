@@ -19,6 +19,8 @@ public class Message {
 
     private String message;
 
+    private String response;
+
     private LocalDateTime createdAt;
 
     @ManyToOne

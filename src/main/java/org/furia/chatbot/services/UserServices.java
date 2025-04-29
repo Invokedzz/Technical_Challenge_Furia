@@ -61,7 +61,7 @@ public class UserServices {
 
     }
 
-    public void updateUserById (HttpHeaders headers, UpdateUserDTO updateUserDTO) {
+    public void updateUserById (HttpHeaders headers, EditUserDTO updateUserDTO) {
 
         Long userId = findUserIdInTheSession(headers);
 

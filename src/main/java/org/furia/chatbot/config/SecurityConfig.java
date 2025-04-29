@@ -23,9 +23,10 @@ public class SecurityConfig {
     private final SecurityFilter securityFilter;
 
     @Bean
-    SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
+    protected SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
 
-        http.csrf(AbstractHttpConfigurer::disable)
+        http
+                .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req.requestMatchers("/account/login", "/account/register").permitAll())
                 .authorizeHttpRequests(req -> req.requestMatchers("/account/**", "/chat/**", "/chat/messages/**").hasRole("CLIENT"))

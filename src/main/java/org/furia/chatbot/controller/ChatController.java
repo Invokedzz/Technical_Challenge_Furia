@@ -3,6 +3,7 @@ package org.furia.chatbot.controller;
 import jakarta.validation.Valid;
 import org.furia.chatbot.dto.ChatDTO;
 import org.furia.chatbot.dto.CreateChatDTO;
+import org.furia.chatbot.dto.EditChatDTO;
 import org.furia.chatbot.dto.SuccessRespDTO;
 import org.furia.chatbot.services.ChatServices;
 import org.springframework.http.HttpHeaders;
@@ -17,8 +18,8 @@ import java.util.List;
 public record ChatController (ChatServices chatServices) {
 
     @PostMapping
-    private ResponseEntity <SuccessRespDTO> createChat (@RequestHeader HttpHeaders headers,
-                                                       @Valid @RequestBody CreateChatDTO createChatDTO) {
+    private ResponseEntity <SuccessRespDTO> createChat (@Valid @RequestBody CreateChatDTO createChatDTO,
+                                                        @RequestHeader HttpHeaders headers){
 
         chatServices.createChat(headers, createChatDTO);
 
@@ -38,27 +39,31 @@ public record ChatController (ChatServices chatServices) {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity <Void> findChatById (@PathVariable Long id) {
+    private ResponseEntity <List<ChatDTO>> findChatById (@RequestHeader HttpHeaders headers,
+                                                         @PathVariable Long id) {
 
-        chatServices.findChatById(id);
+        var chat = chatServices.findChatById(headers, id);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(chat);
 
     }
 
     @PutMapping("/{id}/update")
-    private ResponseEntity <Void> updateChatById (@PathVariable Long id) {
+    private ResponseEntity <Void> updateChatById (@Valid @RequestBody EditChatDTO editChatDTO,
+                                                  @RequestHeader HttpHeaders headers,
+                                                  @PathVariable Long id) {
 
-        chatServices.updateChatById(id);
+        chatServices.editChatById(editChatDTO, headers, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     @DeleteMapping("/{id}/delete")
-    private ResponseEntity <Void> deleteChatById (@PathVariable Long id) {
+    private ResponseEntity <Void> deleteChatById (@RequestHeader HttpHeaders headers,
+                                                  @PathVariable Long id) {
 
-        chatServices.deleteChatById(id);
+        chatServices.deleteChatById(headers, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 

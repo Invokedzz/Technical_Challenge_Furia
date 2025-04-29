@@ -36,7 +36,7 @@ public class AuthService {
 
         if (!sessionId.equals(sentId)) {
 
-            throw new ForbiddenAccessException("You are not allowed to access this session!");
+            throw new ForbiddenAccessException("Você não pode acessar esta sessão!");
 
         }
 

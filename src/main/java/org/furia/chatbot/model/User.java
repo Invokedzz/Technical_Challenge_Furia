@@ -3,7 +3,7 @@ package org.furia.chatbot.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.furia.chatbot.dto.RegisterDTO;
-import org.furia.chatbot.dto.UpdateUserDTO;
+import org.furia.chatbot.dto.EditUserDTO;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,10 +25,13 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private LocalDateTime createdAt;
@@ -63,7 +66,7 @@ public class User implements UserDetails {
 
     }
 
-    public void update (UpdateUserDTO updateUserDTO) {
+    public void update (EditUserDTO updateUserDTO) {
 
         if (updateUserDTO.username() != null) {
 

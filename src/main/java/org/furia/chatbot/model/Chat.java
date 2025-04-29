@@ -3,6 +3,7 @@ package org.furia.chatbot.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.furia.chatbot.dto.CreateChatDTO;
+import org.furia.chatbot.dto.EditChatDTO;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String title;
 
     private String description;
@@ -44,6 +46,22 @@ public class Chat {
         this.user = user;
 
         this.active = true;
+
+    }
+
+    public void update (EditChatDTO updateChatDTO) {
+
+        if (updateChatDTO.title() != null) {
+
+            this.title = updateChatDTO.title();
+
+        }
+
+        if (updateChatDTO.description() != null) {
+
+            this.description = updateChatDTO.description();
+
+        }
 
     }
 

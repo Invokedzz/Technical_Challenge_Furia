@@ -41,7 +41,7 @@ public record UserController (UserServices userServices) {
 
     @PutMapping("/update")
     private ResponseEntity <SuccessRespDTO> updateById (@RequestHeader HttpHeaders headers,
-                                             @Valid @RequestBody UpdateUserDTO updateUserDTO) {
+                                                        @Valid @RequestBody EditUserDTO updateUserDTO) {
 
         userServices.updateUserById(headers, updateUserDTO);
 
