@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 public record MessageController (MessageServices messageServices) {
 
     @PostMapping
-    public ResponseEntity <Void> createMessage () {
+    private ResponseEntity <Void> createMessage () {
 
         messageServices.createMessage();
 
@@ -19,7 +19,7 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @GetMapping
-    public ResponseEntity <Void> allMessages () {
+    private ResponseEntity <Void> allMessages () {
 
         messageServices.allMessages();
 
@@ -28,7 +28,7 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <Void> findMessageById (@PathVariable Long id) {
+    private ResponseEntity <Void> findMessageById (@PathVariable Long id) {
 
         messageServices.findMessageById(id);
 
@@ -37,7 +37,7 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity <Void> updateMessageById (@PathVariable Long id) {
+    private ResponseEntity <Void> updateMessageById (@PathVariable Long id) {
 
         messageServices.updateMessageById(id);
 
@@ -46,7 +46,7 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity <Void> deleteMessageById (@PathVariable Long id) {
+    private ResponseEntity <Void> deleteMessageById (@PathVariable Long id) {
 
         messageServices.deleteMessageById(id);
 

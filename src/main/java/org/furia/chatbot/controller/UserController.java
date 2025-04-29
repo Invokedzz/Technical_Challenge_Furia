@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public record UserController (UserServices userServices) {
 
     @PostMapping("/register")
-    public ResponseEntity <Void> register (@Valid @RequestBody RegisterDTO registerDTO) {
+    private ResponseEntity <Void> register (@Valid @RequestBody RegisterDTO registerDTO) {
 
         userServices.register(registerDTO);
 
@@ -22,7 +22,7 @@ public record UserController (UserServices userServices) {
     }
 
     @PostMapping("/login")
-    public ResponseEntity <TokenDTO> login (@Valid @RequestBody LoginDTO loginDTO) {
+    private ResponseEntity <TokenDTO> login (@Valid @RequestBody LoginDTO loginDTO) {
 
         var token = userServices.login(loginDTO);
 
@@ -31,7 +31,7 @@ public record UserController (UserServices userServices) {
     }
 
     @GetMapping
-    public ResponseEntity <ProfileDTO> profile (@RequestHeader HttpHeaders headers) {
+    private ResponseEntity <ProfileDTO> profile (@RequestHeader HttpHeaders headers) {
 
         var profile = userServices.profile(headers);
 
@@ -40,7 +40,7 @@ public record UserController (UserServices userServices) {
     }
 
     @PutMapping("/update")
-    public ResponseEntity <SuccessRespDTO> updateById (@RequestHeader HttpHeaders headers,
+    private ResponseEntity <SuccessRespDTO> updateById (@RequestHeader HttpHeaders headers,
                                              @Valid @RequestBody UpdateUserDTO updateUserDTO) {
 
         userServices.updateUserById(headers, updateUserDTO);
@@ -50,7 +50,7 @@ public record UserController (UserServices userServices) {
     }
 
     @PutMapping("/reactivate")
-    public ResponseEntity <SuccessRespDTO> reactivateByEmail (@Valid @RequestBody ReactivateAccountDTO reactivateAccountDTO) {
+    private ResponseEntity <SuccessRespDTO> reactivateByEmail (@Valid @RequestBody ReactivateAccountDTO reactivateAccountDTO) {
 
         userServices.reactivateUserById(reactivateAccountDTO);
 
@@ -59,7 +59,7 @@ public record UserController (UserServices userServices) {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity <Void> deleteById (@RequestHeader HttpHeaders headers) {
+    private ResponseEntity <Void> deleteById (@RequestHeader HttpHeaders headers) {
 
         userServices.deactivateUserById(headers);
 

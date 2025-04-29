@@ -53,7 +53,7 @@ public class UserServices {
 
     public ProfileDTO profile (HttpHeaders headers) {
 
-        Long userId = tokenAuthService.findSessionId(headers);
+        Long userId = findUserIdInTheSession(headers);
 
         var user = findUserById(userId);
 
@@ -63,7 +63,7 @@ public class UserServices {
 
     public void updateUserById (HttpHeaders headers, UpdateUserDTO updateUserDTO) {
 
-        Long userId = tokenAuthService.findSessionId(headers);
+        Long userId = findUserIdInTheSession(headers);
 
         var user = findUserById(userId);
 
@@ -85,7 +85,7 @@ public class UserServices {
 
     public void deactivateUserById (HttpHeaders headers) {
 
-        Long userId = tokenAuthService.findSessionId(headers);
+        Long userId = findUserIdInTheSession(headers);
 
         var user = findUserById(userId);
 
@@ -95,7 +95,13 @@ public class UserServices {
 
     }
 
-    private User findUserById (Long id) {
+    private Long findUserIdInTheSession (HttpHeaders headers) {
+
+        return tokenAuthService.findSessionId(headers);
+
+    }
+
+    protected User findUserById (Long id) {
 
        return userRepository
                .findById(id)

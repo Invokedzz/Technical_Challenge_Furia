@@ -1,3 +1,10 @@
 package org.furia.chatbot.dto;
 
-public record ReactivateAccountDTO (String email) {}
+import jakarta.validation.constraints.Email;
+
+public record ReactivateAccountDTO (
+
+        @Email(message = "Enter a valid email!")
+        String email
+
+) {}

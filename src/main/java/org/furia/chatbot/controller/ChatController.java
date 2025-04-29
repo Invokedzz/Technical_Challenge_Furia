@@ -1,36 +1,44 @@
 package org.furia.chatbot.controller;
 
 import jakarta.validation.Valid;
+import org.furia.chatbot.dto.ChatDTO;
 import org.furia.chatbot.dto.CreateChatDTO;
+import org.furia.chatbot.dto.SuccessRespDTO;
 import org.furia.chatbot.services.ChatServices;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
 public record ChatController (ChatServices chatServices) {
 
     @PostMapping
-    public ResponseEntity <Void> createChat (@Valid @RequestBody CreateChatDTO createChatDTO) {
+    private ResponseEntity <SuccessRespDTO> createChat (@RequestHeader HttpHeaders headers,
+                                                       @Valid @RequestBody CreateChatDTO createChatDTO) {
 
-        chatServices.createChat(createChatDTO);
+        chatServices.createChat(headers, createChatDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        var response = new SuccessRespDTO("Chat criado com sucesso!");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
 
     }
 
     @GetMapping
-    public ResponseEntity <Void> getAllChats () {
+    private ResponseEntity <List<ChatDTO>> getAllChats (@RequestHeader HttpHeaders headers) {
 
-        chatServices.chatList();
+        var chats = chatServices.chatList(headers);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(chats);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity <Void> findChatById (@PathVariable Long id) {
+    private ResponseEntity <Void> findChatById (@PathVariable Long id) {
 
         chatServices.findChatById(id);
 
@@ -39,7 +47,7 @@ public record ChatController (ChatServices chatServices) {
     }
 
     @PutMapping("/{id}/update")
-    public ResponseEntity <Void> updateChatById (@PathVariable Long id) {
+    private ResponseEntity <Void> updateChatById (@PathVariable Long id) {
 
         chatServices.updateChatById(id);
 
@@ -48,7 +56,7 @@ public record ChatController (ChatServices chatServices) {
     }
 
     @DeleteMapping("/{id}/delete")
-    public ResponseEntity <Void> deleteChatById (@PathVariable Long id) {
+    private ResponseEntity <Void> deleteChatById (@PathVariable Long id) {
 
         chatServices.deleteChatById(id);
 

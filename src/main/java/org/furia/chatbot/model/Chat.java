@@ -41,9 +41,9 @@ public class Chat {
 
         this.updatedAt = LocalDateTime.now();
 
-        this.active = true;
-
         this.user = user;
+
+        this.active = true;
 
     }
 
