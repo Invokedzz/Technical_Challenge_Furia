@@ -10,4 +10,10 @@ public class RoleServices {
 
     private final RoleRepository roleRepository;
 
+    public void insertRoleInUser (Long userId) {
+
+        roleRepository.insertRole(userId, 1L);
+
+    }
+
 }

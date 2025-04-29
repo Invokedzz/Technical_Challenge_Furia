@@ -1,6 +1,8 @@
 package org.furia.chatbot.services;
 
 import lombok.RequiredArgsConstructor;
+import org.furia.chatbot.dto.CreateChatDTO;
+import org.furia.chatbot.model.Chat;
 import org.furia.chatbot.repository.ChatRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +12,10 @@ public class ChatServices {
 
     private final ChatRepository chatRepository;
 
-    public void createChat () {}
+    public void createChat (CreateChatDTO createChatDTO) {
+
+
+    }
 
     public void chatList () {}
 

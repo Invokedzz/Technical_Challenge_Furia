@@ -1,16 +1,16 @@
 package org.furia.chatbot.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.furia.chatbot.dto.MessageDTO;
 
 import java.time.LocalDateTime;
 
-@Data @Entity
-@AllArgsConstructor
+@Entity
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 public class Message {
 
     @Id
@@ -28,6 +28,18 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Message (MessageDTO messageDTO, Chat chat, User user) {
+
+        this.message = messageDTO.message();
+
+        this.createdAt = LocalDateTime.now();
+
+        this.chat = chat;
+
+        this.user = user;
+
+    }
 
     public void updateMessage (MessageDTO messageDTO) {
 

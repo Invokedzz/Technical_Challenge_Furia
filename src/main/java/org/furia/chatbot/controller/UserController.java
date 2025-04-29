@@ -1,9 +1,7 @@
 package org.furia.chatbot.controller;
 
 import jakarta.validation.Valid;
-import org.furia.chatbot.dto.ProfileDTO;
-import org.furia.chatbot.dto.RegisterDTO;
-import org.furia.chatbot.dto.UpdateUserDTO;
+import org.furia.chatbot.dto.*;
 import org.furia.chatbot.services.UserServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +17,15 @@ public record UserController (UserServices userServices) {
         userServices.register(registerDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity <TokenDTO> login (@Valid @RequestBody LoginDTO loginDTO) {
+
+        var token = userServices.login(loginDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body(new TokenDTO(token));
 
     }
 

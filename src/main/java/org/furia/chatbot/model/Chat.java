@@ -1,16 +1,16 @@
 package org.furia.chatbot.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.furia.chatbot.dto.CreateChatDTO;
 
 import java.time.LocalDateTime;
 
-@Data @Entity
+@Entity
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Chat {
 
     @Id

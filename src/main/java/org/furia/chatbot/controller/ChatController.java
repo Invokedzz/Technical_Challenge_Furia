@@ -1,5 +1,7 @@
 package org.furia.chatbot.controller;
 
+import jakarta.validation.Valid;
+import org.furia.chatbot.dto.CreateChatDTO;
 import org.furia.chatbot.services.ChatServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 public record ChatController (ChatServices chatServices) {
 
     @PostMapping
-    public ResponseEntity <Void> createChat () {
+    public ResponseEntity <Void> createChat (@Valid @RequestBody CreateChatDTO createChatDTO) {
 
-        chatServices.createChat();
+        chatServices.createChat(createChatDTO);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
 
