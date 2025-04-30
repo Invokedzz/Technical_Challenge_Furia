@@ -2,7 +2,7 @@ package org.furia.chatbot.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.furia.chatbot.dto.MessageDTO;
+import org.furia.chatbot.dto.CreateMessageDTO;
 
 import java.time.LocalDateTime;
 
@@ -19,6 +19,7 @@ public class Message {
 
     private String message;
 
+    @Column(length = 10000)
     private String response;
 
     private LocalDateTime createdAt;
@@ -31,7 +32,7 @@ public class Message {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Message (MessageDTO messageDTO, String response, Chat chat, User user) {
+    public Message (CreateMessageDTO messageDTO, String response, Chat chat, User user) {
 
         this.message = messageDTO.message();
 
@@ -45,7 +46,7 @@ public class Message {
 
     }
 
-    public void updateMessage (MessageDTO messageDTO) {
+    public void updateMessage (CreateMessageDTO messageDTO) {
 
         if (messageDTO.message() != null) {
 

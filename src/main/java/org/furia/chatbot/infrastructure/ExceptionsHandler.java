@@ -1,6 +1,7 @@
 package org.furia.chatbot.infrastructure;
 
 import org.furia.chatbot.dto.ErrorDTO;
+import org.furia.chatbot.exceptions.BadRequestException;
 import org.furia.chatbot.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +46,21 @@ public class ExceptionsHandler {
         );
 
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity <ErrorDTO> handleBadRequestException (BadRequestException ex) {
+
+        ErrorDTO response = new ErrorDTO(
+
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
 

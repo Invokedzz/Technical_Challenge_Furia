@@ -1,6 +1,7 @@
 package org.furia.chatbot.controller;
 
 import jakarta.validation.Valid;
+import org.furia.chatbot.dto.CreateMessageDTO;
 import org.furia.chatbot.dto.MessageDTO;
 import org.furia.chatbot.dto.ResponseDTO;
 import org.furia.chatbot.services.MessageServices;
@@ -15,7 +16,7 @@ public record MessageController (MessageServices messageServices) {
 
     @PostMapping
     private ResponseEntity <ResponseDTO> createMessage (@RequestHeader HttpHeaders headers,
-                                                        @Valid @RequestBody MessageDTO messageDTO) {
+                                                        @Valid @RequestBody CreateMessageDTO messageDTO) {
 
         var response = messageServices.createMessage(headers, messageDTO);
 
@@ -33,27 +34,30 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity <Void> findMessageById (@PathVariable Long id) {
+    private ResponseEntity <MessageDTO> findMessageById (@RequestHeader HttpHeaders headers,
+                                                         @PathVariable Long id) {
 
-        messageServices.findMessageById(id);
+        var message = messageServices.findMessageById(headers, id);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
 
     @PutMapping("/{id}/update")
-    private ResponseEntity <Void> updateMessageById (@PathVariable Long id) {
+    private ResponseEntity <Void> updateMessageById (@Valid @RequestBody CreateMessageDTO createMessageDTO,
+                                                     @PathVariable Long id) {
 
-        messageServices.updateMessageById(id);
+        messageServices.updateMessageById(createMessageDTO, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
     }
 
     @DeleteMapping("/{id}/delete")
-    private ResponseEntity <Void> deleteMessageById (@PathVariable Long id) {
+    private ResponseEntity <Void> deleteMessageById (@RequestHeader HttpHeaders headers,
+                                                     @PathVariable Long id) {
 
-        messageServices.deleteMessageById(id);
+        messageServices.deleteMessageById(headers, id);
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 
