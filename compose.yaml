@@ -1,16 +1,5 @@
 services:
 
-  ollama:
-
-    image: ollama/ollama:latest
-    container_name: ollama-furia
-    ports: ["11435:11434"]
-    volumes:
-      - ollama:/root/.ollama
-    pull_policy: always
-    tty: true
-    restart: unless-stopped
-
   db:
 
     image: postgres:latest
@@ -23,18 +12,6 @@ services:
       - "5432"
     volumes:
       - furia_pgdata:/var/lib/postgresql/data
-
-  prepare-models:
-
-    image: ollama/ollama:latest
-    depends_on:
-      - ollama
-    volumes:
-      - ollama:/root/.ollama
-    environment:
-      - OLLAMA_HOST=http://host.docker.internal:7869
-    entrypoint: [ "/bin/sh", "-c" ]
-    command: [ "ollama run phi3:3.8b-instruct" ]
 
   app:
 
@@ -55,4 +32,3 @@ services:
 
 volumes:
   furia_pgdata:
-  ollama:

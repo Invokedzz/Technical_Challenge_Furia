@@ -1,6 +1,10 @@
 package org.furia.chatbot.controller;
 
+import jakarta.validation.Valid;
+import org.furia.chatbot.dto.MessageDTO;
+import org.furia.chatbot.dto.ResponseDTO;
 import org.furia.chatbot.services.MessageServices;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,11 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public record MessageController (MessageServices messageServices) {
 
     @PostMapping
-    private ResponseEntity <Void> createMessage () {
+    private ResponseEntity <ResponseDTO> createMessage (@RequestHeader HttpHeaders headers,
+                                                        @Valid @RequestBody MessageDTO messageDTO) {
 
-        messageServices.createMessage();
+        var response = messageServices.createMessage(headers, messageDTO);
 
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ResponseDTO(response));
 
     }
 

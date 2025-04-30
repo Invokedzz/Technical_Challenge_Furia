@@ -1,5 +1,6 @@
 package org.furia.chatbot.config;
 
+import org.furia.chatbot.dto.ResponseDTO;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

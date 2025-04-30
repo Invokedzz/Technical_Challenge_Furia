@@ -88,6 +88,14 @@ public class ChatServices {
 
     }
 
+    protected Chat findChatById (Long id) {
+
+        return chatRepository
+                .findById(id)
+                .orElseThrow(() -> new NotFoundException("Chat não encontrado!"));
+
+    }
+
     private Chat setupLogicForIdMethods (HttpHeaders headers, Long id) {
 
         Long userId = findUserIdInTheSession(headers);

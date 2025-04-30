@@ -31,9 +31,11 @@ public class Message {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public Message (MessageDTO messageDTO, Chat chat, User user) {
+    public Message (MessageDTO messageDTO, String response, Chat chat, User user) {
 
         this.message = messageDTO.message();
+
+        this.response = response;
 
         this.createdAt = LocalDateTime.now();
 
