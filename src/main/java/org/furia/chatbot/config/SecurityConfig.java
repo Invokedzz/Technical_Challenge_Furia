@@ -22,12 +22,29 @@ public class SecurityConfig {
 
     private final SecurityFilter securityFilter;
 
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
+
     @Bean
     protected SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
 
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(req -> req.requestMatchers(AUTH_WHITELIST).permitAll())
+        //        .authorizeHttpRequests(req -> req.anyRequest().permitAll())
                 .authorizeHttpRequests(req -> req.requestMatchers("/account/login", "/account/register").permitAll())
                 .authorizeHttpRequests(req -> req.requestMatchers("/account/**", "/chat/**", "/chat/messages/**").hasRole("CLIENT"))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

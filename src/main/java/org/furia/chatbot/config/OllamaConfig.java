@@ -1,16 +1,10 @@
 package org.furia.chatbot.config;
 
-import org.furia.chatbot.dto.ResponseDTO;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OllamaConfig {
-
-    @Value("${ai.prompt}")
-    private String prompt;
 
     private final ChatClient chatClient;
 
@@ -23,7 +17,7 @@ public class OllamaConfig {
     public String getAIResponse (String message) {
 
         return chatClient
-                .prompt(prompt)
+                .prompt("Oi")
                 .user(message)
                 .call()
                 .content();
