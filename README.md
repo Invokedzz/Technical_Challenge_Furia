@@ -68,5 +68,57 @@ git clone https://github.com/Invokedzz/Technical_Challenge_Furia
 
 ### Instalando as dependências no seu pom.xml
 
+Para instalar as dependências do projeto é fácil. Se você já tiver o Maven (gerenciador de dependências) instalado, pode executar o seguinte comando no seu terminal:
+
+PS: você precisa estar na mesma pasta que o projeto para conseguir executar esse comando pelo terminal!
+
+```bash
+mvn clean install
+```
+
+Se por algum acaso, você não tiver o Maven instalado, pode executar esse comando em seu terminal:
+
+```bash
+./mvnw install
+```
+
+Depois da instalação das dependências, pronto! Você já tem o projeto *quase* pronto.
+
 ### Criando os containers e instalando um modelo de IA no Ollama
 
+Com as dependências do projeto devidamente prontas, precisamos do Docker para termos acesso ao nosso banco de dados. E o processo é bem simples. 
+Na pasta do projeto, execute o seguinte comando para criar os containers em sua máquina:
+
+```bash
+docker compose up --build
+```
+
+Após executar esse comando, perfeito! Você já tem as dependências do projeto e agora o banco de dados operando! 
+Agora é necessário fazer a instalação do modelo de IA. Para fazer a instalação do modelo de IA, execute o seguinte comando em seu terminal:
+
+```bash
+ollama run phi3:3.8b-instruct
+```
+
+O tempo de instalação de um modelo de IA pode variar, mas costuma demorar. Mas após o download, o projeto estará pronto para ser executado.
+
+### Executando o projeto em sua máquina
+
+A melhor hora chegou. Depois de muitos downloads, e tempo de espera, podemos finalmente executar o projeto em nossa máquina.
+Vou deixar aqui duas formas para você estar executando o projeto
+
+Se você tiver o Maven instalado em sua máquina:
+
+```bash
+mvn spring-boot:run
+```
+
+Se você não tiver o Maven instalado, execute este comando aqui:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Agora o projeto estará rodando em sua máquina! Você pode acessar os endpoints dele via Postman, Insomnia ou através do Swagger. Lembrando que nesse projeto, estou utilizando o portão 9090 para o acesso via localhost.
+
+## Acessando a documentação do projeto com o Swagger
