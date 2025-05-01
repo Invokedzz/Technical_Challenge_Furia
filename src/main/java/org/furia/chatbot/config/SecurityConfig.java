@@ -34,7 +34,7 @@ public class SecurityConfig {
             // -- Swagger UI v3 (OpenAPI)
             "/v3/api-docs/**",
             "/swagger-ui/**",
-            "openapi.yaml"
+            "/openapi.yaml/**"
             // other public endpoints of your API may be appended to this array
     };
 
@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req.requestMatchers(AUTH_WHITELIST).permitAll())
         //        .authorizeHttpRequests(req -> req.anyRequest().permitAll())
                 .authorizeHttpRequests(req -> req.requestMatchers("/account/login", "/account/register").permitAll())
-                .authorizeHttpRequests(req -> req.requestMatchers("/account/**", "/chat/**", "/chat/messages/**").hasRole("CLIENT"))
+                .authorizeHttpRequests(req -> req.requestMatchers("/account/**", "/chat/**", "/chat/messages/**", "/external/**").hasRole("CLIENT"))
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

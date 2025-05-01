@@ -1,8 +1,12 @@
 package org.furia.chatbot.infrastructure;
 
+import feign.FeignException;
 import org.furia.chatbot.dto.ErrorDTO;
 import org.furia.chatbot.exceptions.BadRequestException;
 import org.furia.chatbot.exceptions.NotFoundException;
+import org.furia.chatbot.exceptions.UnauthorizedException;
+import org.furia.chatbot.exceptions.UnprocessableEntity;
+import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -61,6 +65,36 @@ public class ExceptionsHandler {
         );
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity <ErrorDTO> handleUnauthorizedException (UnauthorizedException ex) {
+
+        ErrorDTO response = new ErrorDTO(
+
+                HttpStatus.UNAUTHORIZED.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+
+    }
+
+    @ExceptionHandler(UnprocessableEntity.class)
+    public ResponseEntity <ErrorDTO> handleUnprocessableEntityException (UnprocessableEntity ex) {
+
+        ErrorDTO response = new ErrorDTO(
+
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
 
     }
 
