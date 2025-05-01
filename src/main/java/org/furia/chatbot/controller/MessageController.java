@@ -1,5 +1,6 @@
 package org.furia.chatbot.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.furia.chatbot.dto.CreateMessageDTO;
 import org.furia.chatbot.dto.MessageDTO;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/chat/messages")
+@Tag(name = "Message Controller", description = "Controller criado para o envio de mensagens nos chats")
 public record MessageController (MessageServices messageServices) {
 
     @PostMapping

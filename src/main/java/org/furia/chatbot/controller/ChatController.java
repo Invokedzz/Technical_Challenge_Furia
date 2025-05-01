@@ -1,5 +1,6 @@
 package org.furia.chatbot.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.furia.chatbot.dto.ChatDTO;
 import org.furia.chatbot.dto.CreateChatDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/chat")
+@Tag(name = "Chat Controller", description = "Controller criado para criação/visualização de chats")
 public record ChatController (ChatServices chatServices) {
 
     @PostMapping

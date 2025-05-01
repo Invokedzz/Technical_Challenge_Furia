@@ -1,5 +1,6 @@
 package org.furia.chatbot.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.furia.chatbot.dto.*;
 import org.furia.chatbot.services.UserServices;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/account")
+@Tag(name = "User Controller", description = "Controller criado para criação/login de usuários")
 public record UserController (UserServices userServices) {
 
     @PostMapping("/register")
