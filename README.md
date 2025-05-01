@@ -122,3 +122,19 @@ Se você não tiver o Maven instalado, execute este comando aqui:
 Agora o projeto estará rodando em sua máquina! Você pode acessar os endpoints dele via Postman, Insomnia ou através do Swagger. Lembrando que nesse projeto, estou utilizando o portão 9090 para o acesso via localhost.
 
 ## Acessando a documentação do projeto com o Swagger
+
+Se por algum acaso, você não tiver o Postman ou Insomnia, te encorajo a acessar a documentação do projeto no Swagger. Nela coloquei os principais endpoints e alguns DTOS.
+Para acessar a documentação do Swagger, primeiramente inicie o projeto, e depois acesse a seguinte URL:
+
+```bash
+http://localhost:9090/swagger-ui/index.html#/
+```
+
+Depois disso, na própria aba de pesquisa do Swagger, escreva: ```/openapi.yaml``` dessa forma você acessa o arquivo com a documentação. 
+
+## Agradecimentos
+
+Esse projeto foi algo super interessante de fazer. Nele pude fortalecer ainda mais as minhas habilidades, e treinar os meus prazos de entrega. 
+Agradeço à toda equipe da FURIA por ter trazido uma ideia tão interessante em forma de desafio técnico. Vocês são demais! 
+
+Também agradeço a minha família e a Deus, por me fortalecerem todos os dias e por confiarem no meu trabalho e dedicação.
