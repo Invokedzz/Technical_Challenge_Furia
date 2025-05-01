@@ -1,0 +1,340 @@
+openapi: 3.0.3
+info:
+  title: Technical_Challenge_FURIA
+  version: "1.0"
+  description: API de chatbot criada para o desafio técnico da FURIA
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+  contact:
+    name: Invked
+    email: samuelnobrega902@gmail.com
+    url: https://github.com/Invokedzz
+
+paths:
+  /chat:
+    post:
+      tags: [Chat Controller]
+      summary: Criar novo chat
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Chat criado com sucesso
+
+    get:
+      tags: [Chat Controller]
+      summary: Listar todos os chats
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Lista de chats
+
+  /chat/{id}:
+    get:
+      tags: [Chat Controller]
+      summary: Buscar chat por ID
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Chat encontrado
+
+  /chat/{id}/update:
+    put:
+      tags: [Chat Controller]
+      summary: Atualizar chat por ID
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Atualização concluída
+
+  /chat/{id}/delete:
+    delete:
+      tags: [Chat Controller]
+      summary: Deletar chat por ID
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Chat deletado
+
+  /chat/messages:
+    post:
+      tags: [Message Controller]
+      summary: Criar nova mensagem
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Mensagem criada
+
+    get:
+      tags: [Message Controller]
+      summary: Listar todas as mensagens
+      responses:
+        "200":
+          description: Mensagens listadas
+
+  /chat/messages/{id}:
+    get:
+      tags: [Message Controller]
+      summary: Buscar mensagem por ID
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Mensagem encontrada
+
+    put:
+      tags: [Message Controller]
+      summary: Atualizar mensagem por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Mensagem atualizada
+
+    delete:
+      tags: [Message Controller]
+      summary: Deletar mensagem por ID
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Mensagem deletada
+
+  /account/register:
+    post:
+      tags: [User Controller]
+      summary: Registrar novo usuário
+      responses:
+        "201":
+          description: Usuário registrado
+
+  /account/login:
+    post:
+      tags: [User Controller]
+      summary: Login de usuário
+      responses:
+        "200":
+          description: Login realizado
+
+  /account:
+    get:
+      tags: [User Controller]
+      summary: Obter perfil do usuário
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Perfil retornado
+
+  /account/update:
+    put:
+      tags: [User Controller]
+      summary: Atualizar dados do usuário
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Usuário atualizado
+
+  /account/reactivate:
+    put:
+      tags: [User Controller]
+      summary: Reativar conta de usuário
+      responses:
+        "200":
+          description: Conta reativada
+
+  /account/delete:
+    delete:
+      tags: [User Controller]
+      summary: Deletar conta de usuário
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Conta deletada
+
+components:
+  schemas:
+    CreateChatDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    EditChatDTO:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    ChatDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+
+    CreateMessageDTO:
+      type: object
+      properties:
+        chatId:
+          type: integer
+        content:
+          type: string
+
+    MessageDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        content:
+          type: string
+        sender:
+          type: string
+
+    RegisterDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    TokenDTO:
+      type: object
+      properties:
+        token:
+          type: string
+
+    ProfileDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        email:
+          type: string
+        username:
+          type: string
+
+    EditUserDTO:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    ReactivateAccountDTO:
+      type: object
+      properties:
+        email:
+          type: string
+
+    SuccessRespDTO:
+      type: object
+      properties:
+        message:
+          type: string
+
+    ResponseDTO:
+      type: object
+      properties:
+        response:
+          type: string
