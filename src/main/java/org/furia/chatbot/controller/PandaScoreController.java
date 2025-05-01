@@ -1,7 +1,9 @@
 package org.furia.chatbot.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import org.furia.chatbot.dto.PlayersDTO;
 import org.furia.chatbot.dto.TeamDTO;
+import org.furia.chatbot.dto.TournamentDTO;
 import org.furia.chatbot.services.PandaScoreServices;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,30 +28,20 @@ public record PandaScoreController (PandaScoreServices pandaScoreServices) {
     }
 
     @GetMapping("/players")
-    public ResponseEntity <Void> getPlayers () {
+    public ResponseEntity <List<PlayersDTO>> getPlayers (@RequestParam("teamId") List <Integer> teamId) {
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        var response = pandaScoreServices.getPlayers(teamId);
 
-    }
-
-    @GetMapping("/tournament/past")
-    public ResponseEntity <Void> getPastCSTournaments () {
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
 
-    @GetMapping("/tournament/running")
-    public ResponseEntity <Void> getRunningCSTournament () {
+    @GetMapping("/tournaments")
+    public ResponseEntity <List<TournamentDTO>> getTournaments (@RequestParam("team") String team) {
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        var response = pandaScoreServices.getTournaments(team);
 
-    }
-
-    @GetMapping("/tournament/upcoming")
-    public ResponseEntity <Void> getUpcomingCSTournament () {
-
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
 
     }
 

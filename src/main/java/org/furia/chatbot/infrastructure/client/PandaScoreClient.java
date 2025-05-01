@@ -1,9 +1,9 @@
 package org.furia.chatbot.infrastructure.client;
 
 import org.furia.chatbot.config.ExternalAPIsConfig;
-import org.furia.chatbot.dto.PlayersResponseDTO;
+import org.furia.chatbot.dto.PlayersDTO;
 import org.furia.chatbot.dto.TeamDTO;
-import org.furia.chatbot.dto.TournamentResponseDTO;
+import org.furia.chatbot.dto.TournamentDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,15 +17,9 @@ public interface PandaScoreClient {
     List <TeamDTO> getTeams (@RequestParam("filter[name]") List <String> name);
 
     @GetMapping("/players")
-    List <PlayersResponseDTO> getPlayers ();
+    List <PlayersDTO> getPlayers (@RequestParam("filter[team_id]") List <Integer> team_id);
 
-    @GetMapping("/tournaments/past")
-    List <TournamentResponseDTO> getPastCSTournament ();
-
-    @GetMapping("/tournaments/running")
-    List <TournamentResponseDTO> getRunningCSTournament ();
-
-    @GetMapping("/tournaments/upcoming")
-    List <TournamentResponseDTO> getUpcomingCSTournament ();
+    @GetMapping("/tournaments")
+    List <TournamentDTO> getTournaments ();
 
 }
