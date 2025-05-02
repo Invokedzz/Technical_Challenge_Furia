@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/chat/messages")
 @Tag(name = "Message Controller", description = "Controller criado para o envio de mensagens nos chats")
@@ -27,11 +29,11 @@ public record MessageController (MessageServices messageServices) {
     }
 
     @GetMapping
-    private ResponseEntity <Void> allMessages () {
+    private ResponseEntity <List<MessageDTO>> allMessages (@RequestHeader HttpHeaders headers) {
 
-        messageServices.allMessages();
+        var messages = messageServices.allMessages(headers);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(messages);
 
     }
 

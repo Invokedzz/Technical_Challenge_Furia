@@ -79,57 +79,78 @@ public class OllamaConfig {
 
         StringBuilder context = new StringBuilder();
 
-        context.append("🔎 Dados da Organização FURIA\n\n");
+        context.append("Dados da Organização FURIA\n\n");
 
         // Equipe
         if (!team.isEmpty()) {
+
             TeamDTO t = team.getFirst();
-            context.append("📌 Equipe:\n");
+
+            context.append("Equipe:\n");
+
             context.append(String.format(
                     "Nome: %s | Acrônimo: %s | Localização: %s | ID: %d\n\n",
                     t.name(), t.acronym(), t.location(), t.id()
             ));
+
         }
 
-        // Jogadores
         if (!players.isEmpty()) {
-            context.append("👥 Jogadores Atuais:\n");
+
+            context.append("Jogadores Atuais:\n");
+
             for (PlayersDTO p : players) {
+
                 context.append(String.format(
                         "- Nome: %s %s (%s), Nacionalidade: %s, Idade: %d, Ativo: %s\n",
                         p.first_name(), p.last_name(), p.name(),
                         p.nationality(), p.age(), p.active() ? "Sim" : "Não"
                 ));
             }
+
             context.append("\n");
         }
 
-        // Torneios
         if (!tournaments.isEmpty()) {
-            context.append("📅 Torneios Recentes:\n");
+            context.append("Torneios Recentes:\n");
+
             for (TournamentDTO t : tournaments) {
+
                 context.append(String.format("🏆 Torneio (Tier %s):\n", t.tier()));
+
                 context.append(String.format("- País: %s\n", t.country()));
+
                 context.append(String.format("- Início: %s | Fim: %s\n", t.begin_at(), t.end_at()));
 
                 if (t.teams() != null && !t.teams().isEmpty()) {
+
                     context.append("- Times Participantes:\n");
+
                     for (TeamDTO teamDTO : t.teams()) {
                         context.append(String.format("  • %s (%s)\n", teamDTO.name(), teamDTO.acronym()));
                     }
+
                 }
 
                 if (t.expected_roster() != null && !t.expected_roster().isEmpty()) {
+
                     context.append("- Elenco Esperado:\n");
+
                     for (RoasterDTO roster : t.expected_roster()) {
+
                         for (PlayersDTO p : roster.players()) {
+
                             context.append(String.format(
                                     "  - Nome: %s %s (%s), Nacionalidade: %s, Idade: %d, Ativo: %s\n",
                                     p.first_name(), p.last_name(), p.name(),
                                     p.nationality(), p.age(), p.active() ? "Sim" : "Não"
+
                             ));
+
                         }
+
                     }
+
                 }
 
                 context.append("\n");

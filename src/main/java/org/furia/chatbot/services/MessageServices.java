@@ -14,6 +14,8 @@ import org.furia.chatbot.repository.MessageRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class MessageServices {
@@ -46,9 +48,16 @@ public class MessageServices {
 
     }
 
-    public void allMessages () {
+    public List <MessageDTO> allMessages (HttpHeaders headers) {
 
+        Long userId = getUserId(headers);
 
+        return messageRepository
+                .findAll()
+                .stream()
+                .filter(x -> x.getUser().getId().equals(userId))
+                .map(MessageDTO::new)
+                .toList();
 
     }
 
