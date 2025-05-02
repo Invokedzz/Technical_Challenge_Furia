@@ -2,12 +2,17 @@ package org.furia.chatbot.services;
 
 import lombok.RequiredArgsConstructor;
 import org.furia.chatbot.dto.*;
+import org.furia.chatbot.exceptions.BadRequestException;
 import org.furia.chatbot.exceptions.NotFoundException;
+import org.furia.chatbot.model.Roles;
 import org.furia.chatbot.model.User;
+import org.furia.chatbot.repository.RoleRepository;
 import org.furia.chatbot.repository.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +22,9 @@ public class UserServices {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final TokenAuthService tokenAuthService;
+    private final RoleRepository roleRepository;
 
-    private final RoleServices roleServices;
+    private final TokenAuthService tokenAuthService;
 
     private final AuthService authService;
 
@@ -29,11 +34,16 @@ public class UserServices {
 
         var user = new User(registerDTO);
 
+        checkIfEmailExists(user.getEmail());
+
+       checkIfUsernameExists(user.getUsername());
+
         user.setPassword(encodedPassword);
 
+        Roles role = roleRepository.findById(1L)
+                .orElseGet(() -> roleRepository.save(new Roles(null, "ROLE_CLIENT")));
+        user.setRoles(List.of(role));
         userRepository.save(user);
-
-        roleServices.insertRoleInUser(user.getId());
 
     }
 
@@ -114,6 +124,26 @@ public class UserServices {
         return userRepository
                 .findByEmail(email)
                 .orElseThrow(() -> new NotFoundException("Usuário não encontrado!"));
+
+    }
+
+    private void checkIfEmailExists (String email) {
+
+        if (findUserByEmail(email) != null) {
+
+            throw new BadRequestException("Este Email já existe!");
+
+        }
+
+    }
+
+    private void checkIfUsernameExists (String username) {
+
+        if (userRepository.findByUsername(username) != null) {
+
+            throw new BadRequestException("Este nome já existe!");
+
+        }
 
     }
 

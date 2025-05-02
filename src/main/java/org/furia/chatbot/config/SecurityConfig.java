@@ -45,9 +45,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req.requestMatchers(AUTH_WHITELIST).permitAll())
-        //        .authorizeHttpRequests(req -> req.anyRequest().permitAll())
-                .authorizeHttpRequests(req -> req.requestMatchers("/account/login", "/account/register").permitAll())
-                .authorizeHttpRequests(req -> req.requestMatchers("/account/**", "/chat/**", "/chat/messages/**", "/external/**").hasRole("CLIENT"))
+                .authorizeHttpRequests(req -> req.anyRequest().permitAll())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
