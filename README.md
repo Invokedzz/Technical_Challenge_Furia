@@ -97,10 +97,23 @@ Após executar esse comando, perfeito! Você já tem as dependências do projeto
 Agora é necessário fazer a instalação do modelo de IA. Para fazer a instalação do modelo de IA, execute o seguinte comando em seu terminal:
 
 ```bash
-ollama run phi3:3.8b-instruct
+ollama run gemma2:2b
 ```
 
-O tempo de instalação de um modelo de IA pode variar, mas costuma demorar. Mas após o download, o projeto estará pronto para ser executado.
+O tempo de instalação de um modelo de IA pode variar, mas costuma demorar.
+
+### Gerando uma chave de API na PandaScore
+
+Essa parte não é necessária, mas se você quiser que a IA performe um pouco melhor e tente trazer informações mais precisas, é importante que tenha a chave de APIs externas.
+Para esse projeto, utilizei a API da PandaScore, que deixarei disponível aqui neste link: https://developers.pandascore.co/docs/introduction
+
+Crie uma conta na plataforma deles, e obtenha a sua chave da API, e depois disso, insira ela dentro do application-dev.properties da seguinte forma:
+
+```bash
+pandascore.apikey=${PANDASCORE_KEY:VALOR_DA_CHAVE}
+```
+
+Depois disso, você conseguirá acesso a alguns endpoints que inseri na aplicação e também terá acesso a uma IA muito mais inteligente. Agora, vamos rodar o projeto!
 
 ### Executando o projeto em sua máquina
 
